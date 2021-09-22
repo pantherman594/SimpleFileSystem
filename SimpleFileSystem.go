@@ -11,7 +11,7 @@ import (
 func main() {
 	defer disk.CloseDisks()
 
-	diskHandle, err := disk.OpenDisk("test", 40960)
+	diskHandle, err := disk.OpenDisk("test", 4096*64)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -47,6 +47,16 @@ func main() {
 
 	if !blocksAreEqual(&source, &dest) {
 		fmt.Println("2 Not equal.")
+	}
+
+	diskHandle, err = disk.OpenDisk("testfs", 4096*128)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	err = fs.Init(diskHandle, "m/mnt34")
+	if err != nil {
+		log.Fatal(err)
 	}
 }
 
